@@ -1,0 +1,40 @@
+
+Node *bubbleSort(Node *head)
+{
+    if(head==NULL) return head;
+	Node*c=head;
+    Node*c2=head;
+    Node*c1=head->next;
+    Node *x=NULL;
+    while(x!=head){
+        while(c1!=x){
+           if(c->data > c1->data){
+               if(c==head){
+                   Node*y=c1->next;
+                   c1->next=c;
+                   c->next=y;
+                   head=c1;
+                   c1=y;
+                   c2=head;
+               }else{
+                    Node*y=c1->next;
+                    c2->next=c1;
+                    c1->next=c;
+                    c->next=y;
+                    c2=c1;
+                    c1=y;
+               }
+            }else{
+                c2=c;
+                c=c->next;
+                c1=c1->next;  
+           }      
+         }
+        x=c;
+        c=head;
+        c2=c;
+        c1=head->next;
+    }
+    return head;
+    
+}
