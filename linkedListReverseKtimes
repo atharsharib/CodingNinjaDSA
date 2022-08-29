@@ -16,13 +16,12 @@ Node*reverse(Node*head , int i){
 Node *kReverse(Node *head, int k)
 {
     if(head==NULL || head->next==NULL || k==1 || k==0) return head;
-	Node*fh=head;
+    Node*fh=head;
     Node*th=head;
     Node*prev=NULL;
+    Node*x=NULL;
+    Node*y=NULL;
     int j=k-1;
-    int flag=0;
-     Node*x=NULL;
-     Node*y=NULL;
     while(th!=NULL){
         while(j-- && th!=NULL){
             th=th->next;
@@ -30,8 +29,7 @@ Node *kReverse(Node *head, int k)
         if(th==NULL)   x=NULL;
         else           x=th->next;
         y=reverse(fh , k-1);
-        if(flag==0){
-            flag=1;
+        if(prev==NULL){
             head=y;
             fh->next=x;   
         }else{
@@ -44,10 +42,6 @@ Node *kReverse(Node *head, int k)
     }
     return head;
 }
-
-//RECURSIVE method
-
-
 
 //Main Code
 #include <iostream>
