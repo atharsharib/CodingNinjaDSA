@@ -1,0 +1,63 @@
+Node *middle(Node *head){
+    Node * x=head; 
+    Node * y=head;
+    while(x->next!=NULL){
+        x=x->next;
+        if(x->next!=NULL){
+            x=x->next;
+            y=y->next;
+        }
+    }
+    return y;
+}
+
+Node *merge(Node*h1 , Node*h2){
+    if(h1==NULL && h2==NULL) return NULL;
+    if(h1==NULL && h2!=NULL) return h2;
+    if(h1!=NULL && h2==NULL) return h1;
+    Node* fh=h1;
+    Node* lh=h2;
+    if(h1->data > h2->data){
+        fh=h2;
+        lh=h2;
+        h2=h2->next;
+    }else{
+        fh=h1;
+        lh=h1;
+        h1=h1->next;
+    }
+    while(h1!=NULL && h2!=NULL){
+        if(h1->data > h2->data){
+            lh->next=h2;
+            lh=h2;
+            h2=h2->next;
+        }else{
+            lh->next=h1;
+            lh=h1;
+            h1=h1->next;
+        }
+    }
+    while(h1!=NULL){
+        lh->next=h1;
+        lh=h1;
+        h1=h1->next;
+    }
+    while(h2!=NULL){
+        lh->next=h2;
+        lh=h2;
+        h2=h2->next;
+    }
+    return fh;
+}
+
+Node *mergeSort(Node *head)
+{
+	if(head==NULL || head->next==NULL) return head;
+    Node*mid = middle(head);
+    Node*temp=mid->next;
+    mid->next=NULL;
+    Node* start=mergeSort(head);
+    Node* end=mergeSort(temp);
+    Node* ans=merge(start , end);
+    return ans;
+}
