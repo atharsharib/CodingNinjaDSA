@@ -1,0 +1,36 @@
+Write a recursive function to convert a given string into the number it represents. That is input will be a numeric string that contains only numbers, you need to convert the string into corresponding integer and return the answer.
+Input format :
+Numeric string S (string, Eg. "1234")
+Output format :
+Corresponding integer N (int, Eg. 1234)
+Constraints :
+0 < |S| <= 9
+where |S| represents length of string S.
+Sample Input 1 :
+00001231
+Sample Output 1 :
+1231
+
+int length(char input[]){
+    int z=0;
+    for(int i=0;input[i]!='\0'; i++) z++;
+    return z;
+    
+}
+
+int pow(int n , int k){
+    if(k==0) return 1;
+    return n*pow(n , k-1);
+}
+
+int number(char input[], int s ,int n){
+    if(input[s]=='\0') return 0;
+    int sum=number(input , s+1,n)+((input[s]-'0')*pow(10, n-s-1));
+    return sum;
+}
+
+int stringToNumber(char input[]) {
+     int len= length (input);
+     return number(input , 0 ,len);
+
+}
