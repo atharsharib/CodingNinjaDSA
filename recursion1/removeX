@@ -1,0 +1,40 @@
+Given a string, compute recursively a new string where all 'x' chars have been removed.
+Input format :
+String S
+Output format :
+Modified String
+Constraints :
+1 <= |S| <= 10^3
+where |S| represents the length of string S. 
+Sample Input 1 :
+xaxb
+Sample Output 1:
+ab
+
+
+int length(char input[]){
+    int len=0;
+    for(int i=0;input[i]!='\0';i++) len++;
+    return  len;
+}
+
+void remove(char input[] , int s , int e){
+    if(input[s]=='\0') return ;
+    if(input[s]=='x'){
+        
+        for(int i=s;input[i]!='\0';i++){
+            input[i]=input[i+1];
+        }
+        remove(input , s, e);
+    }else{
+        remove(input , s+1, e);
+    } 
+    
+}
+
+void removeX(char input[]) {
+    int n= length(input);
+    remove(input , 0 , n-1);
+    return;
+
+}
