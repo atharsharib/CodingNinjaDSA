@@ -1,0 +1,50 @@
+Assume that the value of a = 1, b = 2, c = 3, ... , z = 26. You are given a numeric string S. Write a program to return the list of all possible codes that can be generated from the given string.
+Note : The order of codes are not important. And input string does not contain 0s.
+Input format :
+A numeric string
+Constraints :
+1 <= Length of String S <= 10
+Sample Input:
+1123
+Sample Output:
+aabc
+kbc
+alc
+aaw
+kw
+
+
+
+
+#include <string.h>
+#include<vector>
+using namespace std;
+
+
+void helper(string input , string output , vector<string> &str){
+    if(input[0]=='0') return ;
+    if(input.empty()){
+        str.push_back(output);
+        return;
+    }
+    char ch=(input[0]-48)+96;
+    helper(input.substr(1) , output+ch , str);
+    if(input.size()>1){
+        int a= input[0]-48;int b= input[1] -48;
+        int c = (a*10)+b;
+        if(c>26 ) return ;
+        else helper(input.substr(2) , output+char(c+96) , str);
+    }
+}
+
+int getCodes(string input, string output1[10000]) {
+         vector<string> str;
+         string output="";
+         helper(input , output , str);
+         for(int i=0;i<str.size() ;i++){
+             output1[i]=str[i];
+         }
+         return str.size();
+         
+}
+
