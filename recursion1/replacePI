@@ -1,0 +1,43 @@
+Given a string, compute recursively a new string where all appearances of "pi" have been replaced by "3.14".
+Constraints :
+1 <= |S| <= 50
+where |S| represents the length of string S. 
+Sample Input 1 :
+xpix
+Sample Output :
+x3.14x
+
+
+int length(char input[]){
+    int len=0;
+    for(int i=0;input[i]!='\0' ;i++){
+        len++;
+    }
+    return len;
+}
+
+void replace(char input[], int s,int e){
+     if(input[s]=='\0' || input[s+1]=='\0') return ;
+     if(input[s]=='p' && input[s+1]=='i'){
+         for(int i=e;i>s+1;i--){
+             input[i+2]=input[i];
+         }
+         input[s]='3';
+         input[s+1]='.';
+         input[s+2]='1';
+         input[s+3]='4';
+         replace(input , s+4, e+2);
+    }else{
+        replace(input , s+1 , e);
+    }  
+    
+    
+}
+
+void replacePi(char input[]) {
+	int n= length(input);
+    replace(input ,0, n-1); 
+    return; 
+}
+
+
