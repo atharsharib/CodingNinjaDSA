@@ -1,0 +1,56 @@
+Sort an array A using Quick Sort.
+Change in the input array itself. So no need to return or print anything.
+
+
+Input format :
+Line 1 : Integer n i.e. Array size
+Line 2 : Array elements (separated by space)
+Output format :
+Array elements in increasing order (separated by space)
+Constraints :
+1 <= n <= 10^3
+Sample Input 1 :
+6 
+2 6 8 5 4 3
+Sample Output 1 :
+2 3 4 5 6 8
+
+
+
+int partition(int input[] , int s , int e){
+    int cen=input[s];int count=s;
+    for(int k=s+1;k<=e;k++){
+        if(input[k]<=cen){
+             count++;   
+        }
+    } 
+ 
+    int temp=input[s];
+    input[s]=input[count];
+    input[count]=temp;
+    int i=s,j=e;
+    while(i<count && j>count){
+        if(input[i]<=cen){ i++;}
+        else if(input[j]>cen){ j--;}
+        else{
+            int y=input[i];
+            input[i]=input[j];
+            input[j]=y;
+            i++;j--;
+        } 
+    }
+    return count;
+}
+
+void helper(int input[] , int s , int e){
+    if(s>=e) return ;
+    int c=partition( input, s ,e);
+    helper(input,s, c-1);
+    helper(input , c+1 , e);
+    
+}
+
+void quickSort(int input[], int size) {
+    helper(input ,0 , size-1);
+    return ;
+}
