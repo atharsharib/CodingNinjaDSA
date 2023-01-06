@@ -1,0 +1,113 @@
+Given a generic tree, find and return the node with second largest value in given tree.
+Note: Return NULL if no node with required value is present.
+Input format :
+The first line of input contains data of the nodes of the tree in level order form. The order is: data for root node, number of children to root node, data of each of child nodes and so on and so forth for each node. The data of the nodes of the tree is separated by space.
+Output Format :
+The first and only line of output contains data of the node with second largest data.
+Constraints:
+Time Limit: 1 sec
+Sample Input 1 :
+10 3 20 30 40 2 40 50 0 0 0 0 
+Sample Output 1 :
+40
+
+
+
+/************************************************************
+
+    Following is the structure for the TreeNode class
+
+    template <typename T>
+    class TreeNode {
+     public:
+        T data;
+        vector<TreeNode<T>*> children;
+
+        TreeNode(T data) {
+            this->data = data;
+        }
+
+        ~TreeNode() {
+            for (int i = 0; i < children.size(); i++) {
+                delete children[i];
+            }
+        }
+    };
+
+************************************************************/
+
+// class Pair{
+//     public:
+//     TreeNode<int>*max;
+//     TreeNode<int>*max2;
+    
+//     Pair(TreeNode<int>* val , TreeNode<int>* val1){
+//         max=val;
+//         max2=val1;
+//     }
+// };
+
+void helper(TreeNode<int>* root , TreeNode<int>**max1 , TreeNode<int>**max2){
+    if(root==NULL) return;
+    if(*max1==NULL){
+        *max1=root;
+    }else{
+        if((*max1)->data<root->data){
+          *max2=*max1;
+          *max1=root;
+        }else{
+            if( (*max1)->data!=root->data && ((*max2)==NULL || (*max2)->data<root->data) ) *max2=root;
+        }
+        
+    }   
+    for(int i=0;i<root->children.size();i++) helper(root->children[i] , max1 , max2);
+}
+
+TreeNode<int>* getSecondLargestNode(TreeNode<int>* root) {
+    if(root==NULL) return NULL;
+    TreeNode<int>*max1=NULL;
+    TreeNode<int>*max2=NULL;
+    helper(root, &max1 , &max2);
+    return max2;
+}
+
+
+
+
+// Pair helper(TreeNode<int>* root){
+//     Pair ans(root,NULL); 
+//     if(root==NULL){
+//         Pair s(NULL , NULL);
+//         return s;
+//     } 
+//     int n=root->children.size();
+//     for(int i=0;i<n;i++){
+//         Pair temp=helper(root->children[i]);
+//         if(temp.max->data > ans.max->data){
+//             if(temp.max2==NULL){
+//                 ans.max2=ans.max;
+//                 ans.max=temp.max;
+//             }else{
+//                 if(temp.max2->data>ans.max->data){
+//                       ans.max2=temp.max2;
+//                       ans.max=temp.max;
+//                 }else{
+//                       ans.max2=ans.max;
+//                       ans.max=temp.max; 
+//                 }
+//             }
+//         }else{
+//             if(ans.max->data!=temp.max->data && (ans.max2==NULL || temp.max->data>ans.max2->data) ) ans.max2=temp.max;
+//         }
+        
+//     }
+  
+//     return ans;
+// }
+
+// TreeNode<int>* getSecondLargestNode(TreeNode<int>* root) {
+//     if(root==NULL) return NULL;
+//     Pair s=helper(root);
+//     return s.max2;
+// }
+
