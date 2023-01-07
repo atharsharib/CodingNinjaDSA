@@ -1,0 +1,82 @@
+Implement the class for Max Priority Queue which includes following functions -
+1. getSize -
+Return the size of priority queue i.e. number of elements present in the priority queue.
+2. isEmpty -
+Check if priority queue is empty or not. Return true or false accordingly.
+3. insert -
+Given an element, insert that element in the priority queue at the correct position.
+4. getMax -
+Return the maximum element present in the priority queue without deleting. Return -Infinity if priority queue is empty.
+5. removeMax -
+Delete and return the maximum element present in the priority queue. Return -Infinity if priority queue is empty.
+Note : main function is given for your reference which we are using internally to test the class.
+
+
+
+
+
+#include<vector>
+class PriorityQueue {
+    vector<int>pq;
+
+   public:
+    PriorityQueue() {
+        
+    }
+
+    /**************** Implement all the public functions here ***************/
+
+    void insert(int element) {
+        pq.push_back(element);
+        int cI=pq.size()-1;
+        int pI=(cI-1)/2;
+        while(pq[pI]<pq[cI]){
+            int temp=pq[pI];
+            pq[pI]=pq[cI];
+            pq[cI]=temp;
+            cI=pI;
+            pI=(cI-1)/2;
+        }
+    }
+
+    int getMax() {
+         if(isEmpty()) return -1;
+         return pq[0];
+    }
+
+    int removeMax() {
+        if(isEmpty()) return -1;
+        int ans=pq[0];
+        pq[0]=pq[pq.size()-1];
+        pq.pop_back();
+        int n=pq.size();
+        int pI=0;
+        int cI1=(2*pI)+1;
+        int cI2=(2*pI)+2;
+        while(pI<n && cI1<n && cI2<n){
+            int maxIdx=pI;
+            if(pq[pI]<pq[cI1]){
+                maxIdx=cI1;
+            }
+            if(pq[maxIdx]<pq[cI2]){
+                maxIdx=cI2;
+            } 
+            if(pI==maxIdx) break;
+            int temp=pq[pI];
+            pq[pI]=pq[maxIdx];
+            pq[maxIdx]=temp;
+            pI=maxIdx;
+            cI1=(2*pI)+1;
+            cI2=(2*pI)+2;
+        }
+        return ans;
+    }
+
+    int getSize() { 
+        return pq.size();
+    }
+
+    bool isEmpty() {
+        return !pq.size();
+    }
+};
