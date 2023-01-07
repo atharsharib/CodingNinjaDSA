@@ -1,0 +1,59 @@
+Given an integer array of size N. Sort this array (in decreasing order) using heap sort.
+Note: Space complexity should be O(1).
+Input Format:
+The first line of input contains an integer, that denotes the value of the size of the array or N.
+The following line contains N space separated integers, that denote the value of the elements of the array.
+Output Format :
+The first and only line of output contains array elements after sorting. The elements of the array in the output are separated by single space.
+Constraints :
+1 <= n <= 10^6
+Time Limit: 1 sec
+Sample Input 1:
+6 
+2 6 8 5 4 3
+Sample Output 1:
+8 6 5 4 3 2
+
+
+
+
+
+void heapSort(int arr[], int n) {
+       for(int i=1;i<n;i++){
+           int cI=i;
+           int pI=(cI-1)/2;
+           while(arr[pI]>arr[cI]){
+               int temp=arr[pI];
+               arr[pI]=arr[cI];
+               arr[cI]=temp;
+               cI=pI;
+               pI=(cI-1)/2;
+           }
+       }
+        int x=n;
+        while(x>1){
+           int temp=arr[0];
+           arr[0]=arr[x-1];
+           arr[x-1]=temp;
+           int pI=0;
+           int cI1=(2*pI)+1;
+           int cI2=(2*pI)+2;
+           int minIdx=-1;
+           x-=1; 
+           while(cI1<x){
+               if(arr[pI]>arr[cI1]) minIdx=cI1;
+               if(arr[minIdx]>arr[cI2] && cI2<x) minIdx=cI2;
+               if(minIdx==pI) break;
+               int temp=arr[pI];
+               arr[pI]=arr[minIdx];
+               arr[minIdx]=temp;
+               pI=minIdx;
+               cI1=(2*pI)+1;
+               cI2=(2*pI)+2;
+           }
+       }
+     
+}
+
+
+
