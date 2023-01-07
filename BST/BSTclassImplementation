@@ -1,0 +1,138 @@
+Implement the BST class which includes following functions -
+1. insert -
+Given an element, insert that element in the BST at the correct position. If element is equal to the data of the node, insert it in the left subtree.
+2. search
+Given an element, find if that is present in BST or not. Return true or false.
+3. delete -
+Given an element, remove that element from the BST. If the element which is to be deleted has both children, replace that with the minimum element from right sub-tree.
+4. printTree (recursive) -
+Print the BST in in the following format -
+For printing a node with data N, you need to follow the exact format -
+N:L:x,R:y
+where, N is data of any node present in the binary tree. x and y are the values of left and right child of node N. Print the children only if it is not null.
+There is no space in between.
+You need to print all nodes in the recursive format in different lines.
+
+
+
+
+
+#include<queue>
+#include<climits>
+/**********************************************************
+
+	Following is the Binary Tree Node class structure
+
+	template <typename T>
+	class BinaryTreeNode {
+    	public: 
+    	T data;
+    	BinaryTreeNode<T> *left;
+    	BinaryTreeNode<T> *right;
+
+    	BinaryTreeNode(T data) {
+        	this->data = data;
+        	left = NULL;
+        	right = NULL;
+    	}
+	};
+	
+***********************************************************/
+
+class BST {
+   BinaryTreeNode<int>*root; 
+    
+   bool search(int data , BinaryTreeNode<int>*root){
+       if(root==NULL) return false;
+       if(root->data==data) return true;
+       else if(root->data>data) search(data , root->left);
+       else if(root->data<data) search(data , root->right);
+   }  
+    
+   BinaryTreeNode<int>* insert(int data , BinaryTreeNode<int>* node){
+       if(node==NULL){
+              BinaryTreeNode<int>*x=new BinaryTreeNode<int>(data);
+              return x;
+       }
+       if(node->data>=data){
+            node->left=insert(data , node->left);
+       }else{
+           node->right=insert(data , node->right);
+       }
+       return node;
+   }
+    
+   BinaryTreeNode<int>* remove(int data , BinaryTreeNode<int>* root1){
+       if(root1==NULL){
+           return NULL;
+       }
+       if(root1->data==data){
+           if(root1->left!=NULL && root1->right!=NULL){
+                   BinaryTreeNode<int>*min=root1->right;
+                   while(min->left!=NULL) min=min->left;
+                   root1->data=min->data; 
+                   root1->right=remove(min->data , root1->right);
+                   return root1;
+           }else if(root1->left!=NULL && root1->right==NULL){
+                BinaryTreeNode<int>*x=root1->left;
+                delete root1;
+                return x;
+           }else if(root1->left==NULL && root1->right!=NULL){
+                BinaryTreeNode<int>*x=root1->right;
+                delete root1;
+                return x;
+           }else if(root1->left==NULL && root1->right==NULL){
+               delete root1;
+               return NULL;
+           }
+       }
+       else if(root1->data>data){
+           root1->left=remove(data , root1->left);
+           return root1;
+       }else if(root1->data<data){
+           root1->right=remove(data , root1->right);
+           return root1;
+       }
+   } 
+    
+   void printTree(BinaryTreeNode<int>* root) {
+		if (root == NULL) {
+			return;
+		}
+		cout << root->data << ":";
+		if (root->left != NULL) {
+			cout << "L:" << root->left->data<<",";
+		}
+
+		if (root->right != NULL) {
+			cout << "R:" << root->right->data;
+		}
+		cout << endl;
+		printTree(root->left);
+		printTree(root->right); 
+   }
+    
+   public:
+    BST() { 
+        root=NULL;
+    }
+
+	/*----------------- Public Functions of BST -----------------*/
+
+    void remove(int data){
+        root=remove(data , root);
+        return;
+    }
+
+    void print(){
+        printTree(root);
+    }
+
+    void insert(int data) { 
+         root=insert(data , root);
+    }
+
+    bool search(int data) {
+		return search(data , root); 
+    }
+};
