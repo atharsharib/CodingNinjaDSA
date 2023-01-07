@@ -1,0 +1,103 @@
+Given n number of words and an incomplete word w. You need to auto-complete that word w.
+That means, find and print all the possible words which can be formed using the incomplete word w.
+Note : Order of words does not matter.
+Input Format :
+The first line of input contains an integer, that denotes the value of n.
+The following line contains n space separated words.
+The following line contains the word w, that has to be auto-completed.
+Output Format :
+Print all possible words in separate lines.
+Constraints:
+Time Limit: 1 sec
+Sample Input 1 :
+7
+do dont no not note notes den
+no
+Sample Output 1 :
+no
+not
+note
+notes
+
+
+
+
+
+class TrieNode {
+   public:
+    char data;
+    TrieNode **children;
+    bool isTerminal;
+
+    TrieNode(char data) {
+        this->data = data;
+        children = new TrieNode *[26];
+        for (int i = 0; i < 26; i++) {
+            children[i] = NULL;
+        }
+        isTerminal = false;
+    }
+};
+
+class Trie {
+    TrieNode *root;
+
+   public:
+    int count;
+
+    Trie() {
+        this->count = 0;
+        root = new TrieNode('\0');
+    }
+
+    bool insertWord(TrieNode *root, string word) {
+        // Base case
+        if (word.size() == 0) {
+            if (!root->isTerminal) {
+                root->isTerminal = true;
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // Small calculation
+        int index = word[0] - 'a';
+        TrieNode *child;
+
+        if (root->children[index] != NULL) {
+            child = root->children[index];
+        } else {
+            child = new TrieNode(word[0]);
+            root->children[index] = child;
+        }
+
+        // Recursive call
+        return insertWord(child, word.substr(1));
+    }
+
+    void insertWord(string word) {
+        if (insertWord(root, word)) {
+            this->count++;
+        }
+    }
+
+    void autoComplete(TrieNode*root , string pattern, string ans){
+        if(!pattern.size()){
+              if(root->isTerminal){
+                 cout << ans << endl;
+              }
+              for(int i=0;i<26;i++){
+                      if(root->children[i]!=NULL) autoComplete(root->children[i] , pattern , ans+root->children[i]->data);
+              }
+              return;
+        }
+        if(root->children[pattern[0]-'a']!=NULL) autoComplete(root->children[pattern[0]-'a'] , pattern.substr(1) , ans+pattern[0]);
+    }
+
+    void autoComplete(vector<string> input, string pattern) {
+           for(int i=0;i<input.size();i++) insertWord(input[i]);
+           autoComplete(root , pattern , "");
+           return;
+    }
+};
