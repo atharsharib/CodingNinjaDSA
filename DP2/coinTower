@@ -1,0 +1,57 @@
+Whis and Beerus are playing a new game today. They form a tower of N coins and make a move in alternate turns. Beerus plays first. In one step, the player can remove either 1, X, or Y coins from the tower. The person to make the last move wins the game. Can you find out who wins the game?
+ Input format :
+The first and the only line of input contains three integer values separated by a single space. They denote the value of N, X and Y, respectively.
+Output format :
+Prints the name of the winner, either 'Whis' or 'Beerus' (Without the quotes).
+Constraints :
+1 <= N <= 10 ^ 6
+2 <= X <= Y<= 50
+
+Time Limit: 1 sec
+Sample Input 1 :
+4 2 3
+Sample Output 1 :
+Whis
+
+
+
+
+// int helper(int*dp,int n,int x,int y){
+// 	if(n==0) return false;
+// 	if(dp[n]!=-1) return dp[n];
+// 	int ans=0;
+//     if (n >= x) {
+//           if (!helper(dp,n - x, x, y))
+//             ans = 1;
+//     }
+//     if(n>=y){
+//           if (!helper(dp,n - y, x, y)) ans=1;
+//     } 
+//     if(n>=1){
+//       if(!helper(dp,n - 1, x, y)){
+// 		  ans=1;
+// 	  }
+//     } 
+// 	dp[n]=ans;
+// 	return dp[n];
+// }
+// string findWinner(int n, int x, int y)
+// {
+// 	int dp[n+1];
+// 	for(int i=0;i<=n;i++) dp[i]=-1;
+// 	if(helper(dp,n,x,y)) return "Beerus";
+// 	else return "Whis";
+// }
+
+string findWinner(int n, int x, int y){
+	int *dp=new int[n+1];
+	dp[0]=0;
+	dp[1]=1;
+	for(int i=2;i<=n;i++){
+		if(i>=1 && !dp[i-1]) dp[i]=1;
+        if(i>=x && !dp[i - x]) dp[i]=1;
+        if(i>=y && !dp[i - y]) dp[i]=1;
+    }
+	if(dp[n]) return "Beerus";
+	else return "Whis";
+}
